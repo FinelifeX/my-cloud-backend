@@ -1,37 +1,26 @@
-import * as express from 'express';
-import IControllerBase from '../interfaces/IControllerBase';
+import { Request, Response, Router } from 'express';
+import { IController } from '../interfaces';
+import { checkRequestMethod } from '../utils';
 
-class HomeController implements IControllerBase {
+export class HomeController implements IController {
   path = '/';
-  router = express.Router();
+  router = Router();
 
   constructor() {
     this.initRoutes();
   }
 
-  initRoutes() {
-    this.router.get(this.path, this.index);
+  initRoutes(): void {
+    this.router.get(this.path, this.doGet);
+    this.router.all(
+      this.path,
+      checkRequestMethod(['GET']),
+    );
   }
 
-  index = (req: express.Request, res: express.Response) => {
-    const users = [
-      {
-          id: 1,
-          name: 'Ali'
-      },
-      {
-          id: 2,
-          name: 'Can'
-      },
-      {
-          id: 3,
-          name: 'Ahmet'
-      }
-    ];
-
-    res.status(200);
-    res.send(users);
+  doGet(req: Request, res: Response) {
+    res.status(200).send({
+      message: 'Welcome to My Cloud API!',
+    });
   }
 }
-
-export default HomeController;

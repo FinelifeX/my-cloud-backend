@@ -1,8 +1,8 @@
 import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
-import User from '../database/models/User';
+import { User } from '../models';
 
-const auth = async (req: Request, res: Response, next: any) => {
+export const auth = async (req: Request, res: Response, next: any) => {
   const token = req.header('Authorization');
   const data = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -23,5 +23,3 @@ const auth = async (req: Request, res: Response, next: any) => {
     res.status(401).send({ error: 'Not authorized to access this resource.' })
   }
 }
-
-export default auth;

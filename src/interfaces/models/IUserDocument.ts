@@ -1,16 +1,12 @@
 import { Document } from 'mongoose';
 
-interface IUser extends Document {
+export interface IUserDocument extends Document {
   name: string,
   password: string,
   email: string, 
   tokens: [{
-    token: {
-      type: string, 
-      required: boolean 
-    }
+    type: string, 
+    required: boolean 
   }],
   generateAuthToken(): Promise<string>,
 }
-
-export default IUser;

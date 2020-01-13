@@ -1,11 +1,10 @@
-import * as express from 'express';
-import {Request, Response} from 'express';
-import User from '../database/models/User';
-import IControllerBase from '../interfaces/IControllerBase';
+import { Request, Response, Router } from 'express';
+import { IController } from '../interfaces';
+import { User } from '../models';
 
-class RegisterController implements IControllerBase {
+export class RegisterController implements IController {
   path = '/register';
-  router = express.Router();
+  router = Router();
 
   constructor() {
     this.initRoutes();
@@ -13,12 +12,12 @@ class RegisterController implements IControllerBase {
 
   initRoutes() {
     this.router.post(
-      this.path, 
-      this.index,  
+      this.path,
+      this.doPost,
     );
   }
 
-  index = async (req: Request, res: Response) => {
+  async doPost(req: Request, res: Response) {
     try {
       const user = new User(req.body);
       await user.save();
@@ -29,5 +28,3 @@ class RegisterController implements IControllerBase {
     }
   }
 }
-
-export default RegisterController;

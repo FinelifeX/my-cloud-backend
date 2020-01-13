@@ -1,12 +1,11 @@
-import App from './app';
-import loggerMiddleware from './middleware/logger';
-import * as bodyParser from 'body-parser';
-import HomeController from './controllers/home';
 import * as dotenv from 'dotenv';
-import RegisterController from './controllers/register';
-import LoginController from './controllers/login';
+import * as bodyParser from 'body-parser';
+import App from './app';
+import { loggerMiddleware } from './middleware/logger';
+import { HomeController, RegisterController, LoginController } from './controllers';
+import { MongoDriver } from './utils';
 
-dotenv.config();
+dotenv.config({ path: `${process.cwd()}\\.env.local`});
 
 const app = new App({
   port: Number(process.env.PORT),
@@ -20,6 +19,7 @@ const app = new App({
     new RegisterController(),
     new LoginController(),
   ],
+  databaseDriver: new MongoDriver(),
 });
 
-app.listen();
+app.start();

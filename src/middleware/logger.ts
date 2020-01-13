@@ -1,8 +1,13 @@
 import {Request, Response} from 'express';
 
-const loggerMiddleware = (req: Request, resp: Response, next) => {
-  console.log(`Request logged: ${req.method}, ${req.path}`);
-  next();
-}
+export const loggerMiddleware = (req: Request, res: Response, next: any) => {
+  res.on('finish', function() {
+    console.log(`Request:
+    --- Date: ${new Date().toUTCString()} 
+    --- URL: ${req.url} 
+    --- Request Method: ${req.method} 
+    --- Status: ${this.statusCode}`);
+  });
 
-export default loggerMiddleware;
+  next();
+};

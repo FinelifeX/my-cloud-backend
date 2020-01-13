@@ -1,11 +1,11 @@
-import User from '../database/models/User';
-import * as express from 'express';
-import {Request, Response} from 'express';
-import IControllerBase from '../interfaces/IControllerBase';
+import { Request, Response, Router } from 'express';
+import { IController } from '../interfaces';
+import { User } from '../models';
+import { checkRequestMethod } from '../utils';
 
-class LoginController implements IControllerBase {
+export class LoginController implements IController {
   path = '/login';
-  router = express.Router();
+  router = Router();
 
   constructor() {
     this.initRoutes();
@@ -14,21 +14,22 @@ class LoginController implements IControllerBase {
   initRoutes() {
     this.router.post(
       this.path,
-      this.index,
+      this.doPost,
+    );
+    this.router.all(
+      this.path,
+      checkRequestMethod(['POST']),
     );
   }
 
-  index = async (req: Request, res: Response) => {
+  async doPost(req: Request, res: Response) {
     try {
-      const {email, password} = req.body;
-      const user = await User.schema.statics.findByCredentials(email, password);
-
+      const { email, password } = req.body;
+      const user = await User.findByCredentials(email, password);
       res.status(200).send(user);
     } catch (err) {
-      const {message} = err;
-      res.status(404).send({ message })
+      const { message } = err;
+      res.status(404).send({ message });
     }
   }
 }
-
-export default LoginController;

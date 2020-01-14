@@ -9,7 +9,7 @@ export const auth = async (req: Request, res: Response, next: any) => {
   try {
     const user = await User.findOne({
       _id: (data as any)._id, 
-      'tokens.token': token,
+      authToken: token,
     });
 
     if (!user) {
@@ -17,7 +17,7 @@ export const auth = async (req: Request, res: Response, next: any) => {
     }
 
     req.user = user;
-    (req as any).token = token;
+    (req as any).authToken = token;
     next();
   } catch (err) {
     res.status(401).send({ error: 'Not authorized to access this resource.' })

@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { Application } from 'express';
 import { IDatabaseDriver } from './interfaces';
+import { AppVariables } from './constants';
 
 type appInitOptions = {
   port?: number;
@@ -32,6 +33,10 @@ class App {
     controllers.forEach((controller) => {
       this.app.use('/', controller.router);
     });
+  }
+
+  setCloudProvider(provider: any) {
+    this.app.set(AppVariables.CLOUD_STORAGE_PROVIDER, provider);
   }
 
   start() {

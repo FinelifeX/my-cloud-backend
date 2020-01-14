@@ -24,10 +24,9 @@ const UserSchema = new Schema({
     minlength: 8,
     select: false,
   },
-  tokens: [{
+  authToken: {
     type: String,
-    required: true,
-  }],
+  },
 });
 
 UserSchema.pre<IUserDocument>('save', async function(next) {
@@ -38,12 +37,9 @@ UserSchema.pre<IUserDocument>('save', async function(next) {
   next();
 });
 
-UserSchema.methods.generateAuthToken = async function() {
+UserSchema.methods.generateAuthToken = function() {
     const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET);
-    this.tokens = this.tokens.concat(token);
-    await this.save();
-
-    return token;
+    this.authToken = token;
 };
 
 UserSchema.statics.findByCredentials = async function(email: string, password: string) {

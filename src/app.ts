@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Application } from 'express';
-import { IDatabaseDriver } from './interfaces';
-import { AppVariables } from './constants';
+import { IDatabaseDriver } from 'interfaces';
+import { AppVariables } from 'constants/appVariables';
 
 type appInitOptions = {
   port?: number;

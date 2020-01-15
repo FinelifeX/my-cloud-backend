@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
-import { IController } from '../interfaces';
-import { User } from '../models';
-import { AppVariables } from '../constants';
+import { IController } from 'interfaces';
+import { User } from 'models';
+import { AppVariables } from 'constants/appVariables';
 
 export class RegisterController implements IController {
   path = '/register';

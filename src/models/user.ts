@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import { IUserDocument, IUserModel } from '../interfaces';
+import { IUserDocument, IUserModel } from 'interfaces';
 
 const { Schema } = mongoose;
 
@@ -41,21 +41,5 @@ UserSchema.methods.generateAuthToken = function() {
     const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET);
     this.authToken = token;
 };
-
-UserSchema.statics.findByCredentials = async function(email: string, password: string) {
-  const user = await User.findOne({ email }).select('+password');
-
-  if (!user) {
-    throw new Error('Invalid login credentials!');
-  }
-
-  const isPasswordCorrect = await bcrypt.compare(password, user.password);
-
-  if (!isPasswordCorrect) {
-    throw new Error('Invalid login credentials!');
-  }
-  
-  return user;
-}
 
 export const User = mongoose.model<IUserDocument, IUserModel>('User', UserSchema);

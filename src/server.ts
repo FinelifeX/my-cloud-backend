@@ -1,10 +1,10 @@
 import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import { loggerMiddleware } from './middleware/logger';
+import { loggerMiddleware } from 'middleware';
+import { HomeController, RegisterController, LoginController } from 'controllers';
+import { MongoDriver, DropboxDriver, fetch } from 'utils';
 import App from './app';
-import { HomeController, RegisterController, LoginController } from './controllers';
-import { MongoDriver, DropboxDriver, fetch } from './utils';
 
 dotenv.config({ path: `${process.cwd()}\\.env.local`});
 

@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { IController } from '../interfaces';
-import { checkRequestMethod } from '../utils';
+import { IController } from 'interfaces';
+import { checkRequestMethod } from 'utils';
 
 export class HomeController implements IController {
   path = '/';

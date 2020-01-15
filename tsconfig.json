@@ -5,7 +5,6 @@
     "outDir": "dist",
     "sourceMap": true,
     "baseUrl": "src",
-    "moduleResolution": "node",
   },
   "include": [
     "src/**/*.ts"

@@ -36,7 +36,7 @@ class App {
   }
 
   setCloudProvider(provider: any) {
-    this.app.set(AppVariables.CLOUD_STORAGE_PROVIDER, provider);
+    this.app.set(AppVariables.CLOUD_STORAGE_PROVIDER_PROP, provider);
   }
 
   start() {

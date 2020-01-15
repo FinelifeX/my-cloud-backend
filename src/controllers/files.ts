@@ -12,7 +12,7 @@ type GetFilesQuery = {
 };
 
 export class FilesController implements IController {
-  path = '/files';
+  path = /\/files(\/.+){0,}/;
   router = Router();
 
   constructor() {
@@ -32,17 +32,18 @@ export class FilesController implements IController {
     const cloudProvider: Dropbox = req.app.get(AppVariables.CLOUD_STORAGE_PROVIDER_PROP);
     const currentUser = req.user as IUserDocument;
     const reqQuery = req.query as GetFilesQuery;
+    const folderPath = req.params[0];
     const { photosOnly, videosOnly } = reqQuery;
-    const hasConstraints = parseBool(photosOnly) || parseBool(videosOnly);
+    const hasConstraints = (parseBool(photosOnly) || parseBool(videosOnly)) && !folderPath;
     const limit = hasConstraints ? 20 : undefined;
 
     try {
       const data = await cloudProvider.filesListFolder({
-        path: `/${currentUser.email}`,
+        path: `/${currentUser.email}${folderPath ? `/${decodeURIComponent(folderPath)}` : ''}`,
         recursive: hasConstraints,
         limit,
       });
-      const requiredTag = photosOnly ? FileTags.IMAGE : FileTags.VIDEO;
+      const requiredTag = hasConstraints && photosOnly ? FileTags.IMAGE : FileTags.VIDEO;
 
       res.status(200).send({
         ...data,

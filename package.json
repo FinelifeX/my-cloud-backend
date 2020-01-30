@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node --inspect=5858 -r ts-node/register -r tsconfig-paths/register ./src/server.ts",
     "start:watch": "nodemon",

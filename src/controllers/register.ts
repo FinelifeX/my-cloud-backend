@@ -1,7 +1,7 @@
+import { AppVariables } from 'constants/appVariables';
 import { Request, Response, Router } from 'express';
 import { IController } from 'interfaces';
 import { User } from 'models';
-import { AppVariables } from 'constants/appVariables';
 
 export class RegisterController implements IController {
   path = '/register';
@@ -25,15 +25,15 @@ export class RegisterController implements IController {
       user.generateAuthToken();
 
       await user.save();
-      
+
       await cloudStorageProvider.filesCreateFolderV2({
         path: `/${user.email}`,
       });
-      
+
       console.log(`Created Dropbox folder for ${user.email} successfully.`);
-      res.status(200).send({ user })
+      res.status(200).send({ user });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       res.status(400).send({ message: err });
     }
   }

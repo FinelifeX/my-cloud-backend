@@ -3,7 +3,7 @@ export enum FileTags {
   VIDEO = 'video',
   SOUND = 'sound',
   OTHER = 'other',
-};
+}
 
 export const fileExtensions = {
   [FileTags.IMAGE]: ['jpg', 'png', 'tif', 'gif'],

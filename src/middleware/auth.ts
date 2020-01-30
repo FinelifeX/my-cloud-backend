@@ -1,5 +1,5 @@
-import * as jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
+import * as jwt from 'jsonwebtoken';
 import { User } from 'models';
 
 export const auth = async (req: Request, res: Response, next: any) => {
@@ -7,7 +7,7 @@ export const auth = async (req: Request, res: Response, next: any) => {
   const data = jwt.verify(token, process.env.JWT_SECRET);
   try {
     const user = await User.findOne({
-      _id: (data as any).id, 
+      _id: (data as any).id,
       authToken: token,
     });
 
@@ -18,6 +18,6 @@ export const auth = async (req: Request, res: Response, next: any) => {
     req.user = user;
     next();
   } catch (err) {
-    res.status(401).send({ error: 'Not authorized to access this resource.' })
+    res.status(401).send({ error: 'Not authorized to access this resource.' });
   }
-}
+};

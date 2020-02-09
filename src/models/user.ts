@@ -1,6 +1,6 @@
-import * as mongoose from 'mongoose';
-import * as bcrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { IUserDocument, IUserModel } from 'interfaces';
 
 const { Schema } = mongoose;

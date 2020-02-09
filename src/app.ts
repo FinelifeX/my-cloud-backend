@@ -1,5 +1,4 @@
-import * as express from 'express';
-import { Application } from 'express';
+import express, { Application } from 'express';
 import { IDatabaseDriver } from 'interfaces';
 import { AppVariables } from 'constants/appVariables';
 
@@ -55,7 +54,7 @@ class App {
       .catch(err => {
         console.log('An error occurred during starting the server. See details below.');
         console.log(err);
-      })
+      });
     } catch (error) {
       console.log('Error occurred. See details below.');
       console.log(error);

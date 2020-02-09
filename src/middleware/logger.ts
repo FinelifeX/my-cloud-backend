@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 
 export const loggerMiddleware = (req: Request, res: Response, next: any) => {
   res.on('finish', function() {

@@ -1,3 +1,3 @@
-import * as nodeFetch from 'node-fetch';
+import nodeFetch from 'node-fetch';
 
-export const fetch = nodeFetch.default;
+export const fetch = nodeFetch;

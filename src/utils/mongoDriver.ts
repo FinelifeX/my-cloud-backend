@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import { ConnectionOptions } from 'mongoose';
 import { IDatabaseDriver } from 'interfaces';
 
@@ -12,7 +12,7 @@ export class MongoDriver implements IDatabaseDriver {
       useUnifiedTopology: true,
     };
   }
-  
+
   connect() {
     return mongoose.connect(
       process.env.MONGODB_URL,

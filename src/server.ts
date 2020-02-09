@@ -1,12 +1,12 @@
-import * as dotenv from 'dotenv';
-import * as bodyParser from 'body-parser';
-import * as cors from 'cors';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 import { loggerMiddleware } from 'middleware';
 import { HomeController, RegisterController, LoginController, FilesController } from 'controllers';
 import { MongoDriver, DropboxDriver, fetch } from 'utils';
 import App from './app';
 
-dotenv.config({ path: `${process.cwd()}\\.env.local`});
+dotenv.config({ path: `${process.cwd()}/.env.local`});
 
 const app = new App({
   port: Number(process.env.PORT),

@@ -1,7 +1,4 @@
-import * as DropboxNamespace from 'dropbox';
-import { fetch } from './fetch';
-
-const { Dropbox } = DropboxNamespace;
+import { Dropbox } from 'dropbox';
 
 export class DropboxDriver {
   accessToken: string;
@@ -13,9 +10,9 @@ export class DropboxDriver {
   }
 
   getInstance() {
-    return new DropboxNamespace.Dropbox({
+    return new Dropbox({
       accessToken: this.accessToken,
       fetch: this.fetchTool,
     });
-  };
+  }
 }

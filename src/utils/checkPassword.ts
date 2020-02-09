@@ -1,6 +1,6 @@
-import * as bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 
 export const checkPassword = (
-  password: string, 
+  password: string,
   hashedPassword: string
 ) => bcrypt.compare(password, hashedPassword);

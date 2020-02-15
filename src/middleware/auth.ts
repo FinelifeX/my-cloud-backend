@@ -3,9 +3,9 @@ import jwt from 'jsonwebtoken';
 import { User } from 'models';
 
 export const auth = async (req: Request, res: Response, next: any) => {
-  const token = req.header('Authorization');
-  const data = jwt.verify(token, process.env.JWT_SECRET);
   try {
+    const token = req.header('Authorization');
+    const data = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({
       _id: (data as any).id,
       authToken: token,

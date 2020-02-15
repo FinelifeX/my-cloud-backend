@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import multer from 'multer';
 import { Dropbox } from 'dropbox';
 import { IController, IUserDocument } from 'interfaces';
 import { checkRequestMethod, tagFileByExt, parseBool } from 'utils';
@@ -11,6 +12,8 @@ type GetFilesQuery = {
   videosOnly?: string;
 };
 
+const FILE_FIELD_NAME = 'file';
+
 export class FilesController implements IController {
   path = /\/files(\/.+){0,}/;
   router = Router();
@@ -22,6 +25,7 @@ export class FilesController implements IController {
   initRoutes() {
     this.router.use(auth);
     this.router.get(this.path, this.doGet);
+    this.router.post(this.path, multer().array(FILE_FIELD_NAME), this.doPost);
     this.router.all(this.path, checkRequestMethod(['GET', 'POST']));
   }
 
@@ -36,12 +40,11 @@ export class FilesController implements IController {
     const hasConstraints =
       (parseBool(photosOnly) || parseBool(videosOnly)) && !folderPath;
     const limit = hasConstraints ? 20 : undefined;
+    const path = folderPath || `/${currentUser.email}`;
 
     try {
       const data = await cloudProvider.filesListFolder({
-        path: `/${currentUser.email}${
-          folderPath ? `/${decodeURIComponent(folderPath)}` : ''
-        }`,
+        path,
         recursive: hasConstraints,
         limit,
       });
@@ -59,6 +62,28 @@ export class FilesController implements IController {
     } catch (error) {
       const { message } = error;
       res.status(500).send(error.error || { message });
+    }
+  }
+
+  async doPost(req: Request, res: Response) {
+    const cloudProvider: Dropbox = req.app.get(
+      AppVariables.CLOUD_STORAGE_PROVIDER_PROP
+    );
+    const { path, subject } = req.body;
+    const { files } = req;
+
+    try {
+      (files as Express.Multer.File[]).forEach(async (file) => {
+        await cloudProvider.filesUpload({
+          path: `${path}/${file.originalname}`,
+          contents: file,
+          autorename: true,
+        });
+      });
+
+      res.status(200).send({ message: 'Files were uploaded successfully.' });
+    } catch (error) {
+      res.status(500).send(error);
     }
   }
 }

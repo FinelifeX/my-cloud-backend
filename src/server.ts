@@ -17,8 +17,8 @@ const app = new App({
   port: Number(process.env.PORT),
   middlewares: [
     cors(),
-    bodyParser.json(),
     bodyParser.urlencoded({ extended: false }),
+    bodyParser.json(),
     loggerMiddleware,
   ],
   controllers: [

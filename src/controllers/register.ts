@@ -2,6 +2,7 @@ import { AppVariables } from 'constants/appVariables';
 import { Request, Response, Router } from 'express';
 import { IController } from 'interfaces';
 import { User } from 'models';
+import { checkRequestMethod } from 'utils';
 
 export class RegisterController implements IController {
   path = '/register';
@@ -13,13 +14,14 @@ export class RegisterController implements IController {
 
   initRoutes() {
     this.router.post(this.path, this.doPost);
+    this.router.all(this.path, checkRequestMethod(['POST']));
   }
 
   async doPost(req: Request, res: Response) {
     try {
-      const cloudStorageProvider = req.app
-        .get(AppVariables.CLOUD_STORAGE_PROVIDER_PROP)
-        .getInstance();
+      const cloudStorageProvider = req.app.get(
+        AppVariables.CLOUD_STORAGE_PROVIDER_PROP
+      );
       const user = new User(req.body);
       user.generateAuthToken();
 
@@ -30,7 +32,8 @@ export class RegisterController implements IController {
       });
 
       console.log(`Created Dropbox folder for ${user.email} successfully.`);
-      res.status(200).send({ user });
+      user.password = undefined;
+      res.status(200).send(user);
     } catch (err) {
       console.log(err);
       res.status(400).send({ message: err });

@@ -1,8 +1,7 @@
 import { FileTags, fileExtensions } from 'constants/files';
 
 export const tagFileByExt = (fileName: string) => {
-  const parts = fileName.split('.');
-  const ext = parts[parts.length - 1];
+  const ext = fileName.split('.').pop();
   let result = FileTags.OTHER;
 
   for (let key in fileExtensions) {

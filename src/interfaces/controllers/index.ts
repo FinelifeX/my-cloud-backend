@@ -1,1 +1,1 @@
-export * from './IControllerBase';
+export * from './IController';

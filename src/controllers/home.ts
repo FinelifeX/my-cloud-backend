@@ -12,10 +12,7 @@ export class HomeController implements IController {
 
   initRoutes(): void {
     this.router.get(this.path, this.doGet);
-    this.router.all(
-      this.path,
-      checkRequestMethod(['GET']),
-    );
+    this.router.all(this.path, checkRequestMethod(['GET']));
   }
 
   doGet(req: Request, res: Response) {

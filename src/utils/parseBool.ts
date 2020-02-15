@@ -1,3 +1,2 @@
-export const parseBool = (
-  arg: string
-) => typeof arg === 'string' ? arg.toLowerCase() === 'true' : false;
+export const parseBool = (arg: string) =>
+  typeof arg === 'string' ? arg.toLowerCase() === 'true' : false;

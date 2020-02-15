@@ -38,8 +38,11 @@ UserSchema.pre<IUserDocument>('save', async function(next) {
 });
 
 UserSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET);
-    this.authToken = token;
+  const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET);
+  this.authToken = token;
 };
 
-export const User = mongoose.model<IUserDocument, IUserModel>('User', UserSchema);
+export const User = mongoose.model<IUserDocument, IUserModel>(
+  'User',
+  UserSchema
+);

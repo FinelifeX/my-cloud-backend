@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { Dropbox } from 'dropbox';
-import { IController, IUserDocument } from "interfaces";
+import { IController, IUserDocument } from 'interfaces';
 import { checkRequestMethod, tagFileByExt, parseBool } from 'utils';
 import { AppVariables } from 'constants/appVariables';
 import { auth } from 'middleware';
@@ -22,33 +22,38 @@ export class FilesController implements IController {
   initRoutes() {
     this.router.use(auth);
     this.router.get(this.path, this.doGet);
-    this.router.all(
-      this.path,
-      checkRequestMethod(['GET', 'POST'])
-    );
+    this.router.all(this.path, checkRequestMethod(['GET', 'POST']));
   }
 
   async doGet(req: Request, res: Response) {
-    const cloudProvider: Dropbox = req.app.get(AppVariables.CLOUD_STORAGE_PROVIDER_PROP);
+    const cloudProvider: Dropbox = req.app.get(
+      AppVariables.CLOUD_STORAGE_PROVIDER_PROP
+    );
     const currentUser = req.user as IUserDocument;
     const reqQuery = req.query as GetFilesQuery;
     const folderPath = req.params[0];
     const { photosOnly, videosOnly } = reqQuery;
-    const hasConstraints = (parseBool(photosOnly) || parseBool(videosOnly)) && !folderPath;
+    const hasConstraints =
+      (parseBool(photosOnly) || parseBool(videosOnly)) && !folderPath;
     const limit = hasConstraints ? 20 : undefined;
 
     try {
       const data = await cloudProvider.filesListFolder({
-        path: `/${currentUser.email}${folderPath ? `/${decodeURIComponent(folderPath)}` : ''}`,
+        path: `/${currentUser.email}${
+          folderPath ? `/${decodeURIComponent(folderPath)}` : ''
+        }`,
         recursive: hasConstraints,
         limit,
       });
-      const requiredTag = hasConstraints && photosOnly ? FileTags.IMAGE : FileTags.VIDEO;
+      const requiredTag =
+        hasConstraints && photosOnly ? FileTags.IMAGE : FileTags.VIDEO;
 
       res.status(200).send({
         ...data,
         entries: hasConstraints
-          ? data.entries.filter(entry => tagFileByExt(entry.name) === requiredTag)
+          ? data.entries.filter(
+              (entry) => tagFileByExt(entry.name) === requiredTag
+            )
           : data.entries,
       });
     } catch (error) {

@@ -7,7 +7,7 @@ type appInitOptions = {
   middlewares?: any[];
   controllers: any[];
   databaseDriver: IDatabaseDriver;
-}
+};
 
 class App {
   private app: Application;
@@ -42,19 +42,20 @@ class App {
     console.log(`Starting server on port ${this.port}...`);
 
     try {
-      this
-      .databaseDriver
-      .connect()
-      .then(() => {
-        console.log('Connected to database successfully.');
-        this.app.listen(this.port, () => {
-          console.log(`Server is listening on port ${this.port}...`);
+      this.databaseDriver
+        .connect()
+        .then(() => {
+          console.log('Connected to database successfully.');
+          this.app.listen(this.port, () => {
+            console.log(`Server is listening on port ${this.port}...`);
+          });
+        })
+        .catch((err) => {
+          console.log(
+            'An error occurred during starting the server. See details below.'
+          );
+          console.log(err);
         });
-      })
-      .catch(err => {
-        console.log('An error occurred during starting the server. See details below.');
-        console.log(err);
-      });
     } catch (error) {
       console.log('Error occurred. See details below.');
       console.log(error);

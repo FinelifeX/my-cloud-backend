@@ -14,9 +14,6 @@ export class MongoDriver implements IDatabaseDriver {
   }
 
   connect() {
-    return mongoose.connect(
-      process.env.MONGODB_URL,
-      this.options,
-    );
+    return mongoose.connect(process.env.MONGODB_URL, this.options);
   }
 }

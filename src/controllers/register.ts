@@ -12,15 +12,14 @@ export class RegisterController implements IController {
   }
 
   initRoutes() {
-    this.router.post(
-      this.path,
-      this.doPost,
-    );
+    this.router.post(this.path, this.doPost);
   }
 
   async doPost(req: Request, res: Response) {
     try {
-      const cloudStorageProvider = req.app.get(AppVariables.CLOUD_STORAGE_PROVIDER_PROP).getInstance();
+      const cloudStorageProvider = req.app
+        .get(AppVariables.CLOUD_STORAGE_PROVIDER_PROP)
+        .getInstance();
       const user = new User(req.body);
       user.generateAuthToken();
 

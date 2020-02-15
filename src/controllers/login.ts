@@ -12,14 +12,8 @@ export class LoginController implements IController {
   }
 
   initRoutes() {
-    this.router.post(
-      this.path,
-      this.doPost,
-    );
-    this.router.all(
-      this.path,
-      checkRequestMethod(['POST']),
-    );
+    this.router.post(this.path, this.doPost);
+    this.router.all(this.path, checkRequestMethod(['POST']));
   }
 
   async doPost(req: Request, res: Response) {

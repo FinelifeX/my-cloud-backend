@@ -1,4 +1,4 @@
-import { FileTags, fileExtensions } from "constants/files";
+import { FileTags, fileExtensions } from 'constants/files';
 
 export const tagFileByExt = (fileName: string) => {
   const parts = fileName.split('.');
@@ -8,8 +8,8 @@ export const tagFileByExt = (fileName: string) => {
   for (let key in fileExtensions) {
     if (fileExtensions[key].includes(ext)) {
       result = FileTags[key.toUpperCase()];
-    };
-  };
+    }
+  }
 
   return result;
-}
+};

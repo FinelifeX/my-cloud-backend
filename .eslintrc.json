@@ -5,7 +5,8 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended"
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:prettier/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -30,6 +31,16 @@
         ],
         "no-trailing-spaces": "error",
         "comma-style": "error",
-        "semi": ["error", "always"]
+        "semi": ["error", "always"],
+        "prettier/prettier": [
+            "error",
+            {
+                "semi": true,
+                "singleQuote": true,
+                "trailingComma": "es5",
+                "printWidth": 80,
+                "arrowParens": "always"
+            }
+        ]
     }
 }

@@ -39,7 +39,11 @@ export class FileController implements IController {
 
       res.status(200).send(result);
     } catch (error) {
-      res.status(500).send(error);
+      console.log(error);
+
+      res
+        .status(500)
+        .send({ message: 'An error occurred during file uploading.' });
     }
   }
 }

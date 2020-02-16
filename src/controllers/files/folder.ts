@@ -29,7 +29,11 @@ export class FolderController implements IController {
 
       res.status(200).send(result.metadata);
     } catch (err) {
-      res.status(500).send(err);
+      console.log(err);
+
+      res
+        .status(500)
+        .send({ message: 'An error occurred during folder creation.' });
     }
   }
 }

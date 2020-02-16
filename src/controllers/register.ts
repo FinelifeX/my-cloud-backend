@@ -36,7 +36,9 @@ export class RegisterController implements IController {
       res.status(200).send(user);
     } catch (err) {
       console.log(err);
-      res.status(400).send({ message: err });
+      res
+        .status(400)
+        .send({ message: 'An error occured during registering new user.' });
     }
   }
 }

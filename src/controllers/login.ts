@@ -33,6 +33,8 @@ export class LoginController implements IController {
 
       res.status(200).send(user);
     } catch (err) {
+      console.log(err);
+
       const { message } = err;
       res.status(404).send({ message });
     }

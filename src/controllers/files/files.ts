@@ -37,20 +37,23 @@ export class FilesController implements IController {
     const currentUser = req.user as IUserDocument;
     const reqQuery = req.query as GetFilesQuery;
     const { photosOnly, videosOnly, folderPath } = reqQuery;
-    const hasConstraints =
-      (parseBool(photosOnly) || parseBool(videosOnly)) && !folderPath;
-    const limit = hasConstraints ? 20 : undefined;
-    const path =
-      (folderPath && decodeURIComponent(folderPath)) || `/${currentUser.email}`;
-
-    console.log(path);
 
     try {
+      const hasConstraints =
+        (parseBool(photosOnly) || parseBool(videosOnly)) && !folderPath;
+      const limit = hasConstraints ? 20 : undefined;
+      const path =
+        (folderPath && decodeURIComponent(folderPath)) ||
+        `/${currentUser.email}`;
+
+      console.log(path);
+
       const data = await cloudProvider.filesListFolder({
         path,
         recursive: hasConstraints,
         limit,
       });
+
       const requiredTag =
         hasConstraints && photosOnly ? FileTags.IMAGE : FileTags.VIDEO;
 
@@ -63,8 +66,11 @@ export class FilesController implements IController {
           : data.entries,
       });
     } catch (error) {
-      const { message } = error;
-      res.status(500).send(error.error || { message });
+      console.log(error);
+
+      res
+        .status(500)
+        .send({ message: 'An error occurred during retrieving files.' });
     }
   }
 }
